@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import dbus, gobject, dbus.glib, urllib
+import dbus, gobject, dbus.glib, urllib, re
+from BeautifulSoup import BeautifulSoup
 
 # authroitative account
 ACCOUNT = "flazzarino@gmail.com/work"
@@ -11,23 +12,27 @@ class InOutBoard:
 
   def __init__(self, url):
     self.url = url
-    self.parse_info()
-    
-  def parse_info(self):
-    self.params = {}
-    info_url = self.url + '?go=1'
-    # TODO get the info URL and scrape it
-    # scrape hidden info
-#    params['user_id'] /html/body/table/tbody/tr/td/input/@value
-#    params['modifier'] /html/body/table/tbody/tr/td/input[2]/@value
-#    params['person_id'] /html/body/table/tbody/tr/td/input[3]/@value
 
-    # scrape user info
-#    params['time_back']
-#    params['in_out']
-#    params['phone']
-#    params['email'] = '---'
-#    params['comment']
+    # get the post vars from the form: inputs (6), selects (2), textareas (1)
+    self.params = {}
+    html = urllib.urlopen(self.url + '?go=1').read()
+    soup = BeautifulSoup(html)
+
+    for input in soup.html.body.findAll('input'):
+      self.params[input['name']] = input['value']
+
+    for select in soup.html.body.findAll(['select']):
+      name = select['name']
+      option = select.find('option', { "selected" : "SELECTED" })
+      if option == None:
+        self.params[name] = ''
+      else:
+        self.params[name] = option['value']
+
+    for textarea in soup.html.body.find(['textarea']):
+      self.params[textarea['name']] = '\n'.join(textarea.contents)
+
+    print self.params
 
   def mark_out(self, message):
     self.mark(message, 0)
@@ -39,7 +44,7 @@ class InOutBoard:
     self.params['comment'] = message
     self.params['in_out'] = presence
     urllib.urlopen(self.url, urllib.urlencode(self.params))
-
+    
 board = InOutBoard(INOUT_URL)
 
 # Initiate a connection to the Session Bus
