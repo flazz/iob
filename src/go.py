@@ -32,7 +32,6 @@ class InOutBoard:
     for textarea in soup.html.body.find(['textarea']):
       self.params[textarea['name']] = '\n'.join(textarea.contents)
 
-    print self.params
 
   def mark_out(self, message):
     self.mark(message, 0)
@@ -59,7 +58,6 @@ def onStatusChanged(acctID, old, new):
         purple.PurpleAccountGetProtocolName(acctID) == PROTOCOL:
     status = purple.PurpleStatusTypeGetName(purple.PurpleStatusGetType(new))
     message = purple.PurpleSavedstatusGetMessage(purple.PurpleSavedstatusGetCurrent())
-    print '!'
     if status == "Away" or status == "Offline":
       board.mark_out(message)
     else:
