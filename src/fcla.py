@@ -17,15 +17,20 @@ class InOutBoard:
       self.params[input['name']] = input['value']
 
     for select in soup.html.body.findAll(['select']):
-      name = select['name']
-      option = select.find('option', { "selected" : "SELECTED" })
-      if option == None:
-        self.params[name] = ''
+      selected_option = select.find('option', { "selected" : "SELECTED" })
+      if selected_option:
+        value = selected_option['value']
       else:
-        self.params[name] = option['value']
+        value = select.find('option').string
 
-    for textarea in soup.html.body.find(['textarea']):
-      self.params[textarea['name']] = '\n'.join(textarea.contents)
+      self.params[select['name']] = value
+
+    for textarea in soup.html.body.findAll(['textarea']):
+      if textarea.string:
+        value = '\n'.join(textarea.string)
+      else:
+        value = ''
+      self.params[textarea['name']] = value
 
 
   def mark_out(self, message):
