@@ -1,0 +1,9 @@
+You need the following dependencies:
+Python (2.3 should be sufficient, but tested only with 2.4)
+PyGTK
+Python DBus bindings (Tested: 0.70, recommended: 0.80+)
+
+On a Debian system, you can satisfy these dependencies by running
+apt-get install python-dbus python-glade2
+
+To run DBus inspector, execute "dbus-inspector"
