@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import dbus, gobject, dbus.glib
-from InOutBoard import *
+from fcla import InOutBoard, INOUT_URL
 
 # authroitative account
 ACCOUNT = "flazzarino@gmail.com/work"
