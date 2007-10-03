@@ -1,7 +1,7 @@
 How to use? just run it
-% python pidgin_inout.py
+% python purple_inout.py
 - or -
-%./pidgin_inout.py
+%./purple_inout.py
 
 
 it will print some startup stuff and notification changes, you can safely run
