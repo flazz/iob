@@ -1,0 +1,19 @@
+How to use? just run it
+% python pidgin_inout.py
+- or -
+%./pidgin_inout.py
+
+
+it will print some startup stuff and notification changes, you can safely run
+it in the background.
+
+the other files bundled: 
+
+
+BeautifulSoup.py screen scraping stuff requited by fcla.py, if installed
+globaly you don't need it here.
+
+fcla.py inout board interface.
+
+-franco
+
