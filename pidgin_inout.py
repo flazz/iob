@@ -34,11 +34,35 @@ parser.add_option("-a", "--account", dest="account", metavar="ACCOUNT",
 
 parser.add_option("-p", "--protocol", dest="protocol", metavar="PROTOCOL", 
                   help="the pidgin protocol sync presence to")
-# TODO load defaults from dbus
-parser.set_defaults(account="flazzarino@gmail.com/work", protocol="XMPP")
+
+# load defaults from dbus
+def protocol_cmp(x, y):
+  x_protocol = purple.PurpleAccountGetProtocolName(x)
+  y_protocol = purple.PurpleAccountGetProtocolName(y)
+  if x_protocol == y_protocol:
+    return 0
+  elif x_protocol == 'XMPP':
+    return -1
+  elif x_protocol == 'IRC':
+    return -1
+  elif x_protocol == 'AIM':
+    return -1
+  else:
+    return 1
+  
+try:
+  account_id_list = purple.PurpleAccountsGetAll()
+  account_id_list.sort(protocol_cmp)
+  default_account_id = account_id_list[0]
+  default_account = purple.PurpleAccountGetUsername(default_account_id)
+  default_protocol = purple.PurpleAccountGetProtocolName(default_account_id)
+except IndexError:
+  sys.stderr.write('Error: no pidgin accounts found, please set one up\n')
+  sys.exit(1)
+
+parser.set_defaults(account=default_account, protocol=default_protocol)
 (options, args) = parser.parse_args(sys.argv)
 
-# TODO Test if pidgin is running with this account
 print 'Syncing to account %s://%s' % (options.protocol, options.account)
 
 # Print blank line to show that headers are over
