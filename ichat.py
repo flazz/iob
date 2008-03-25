@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from Foundation import *
 from ScriptingBridge import *
 from fcla import *
