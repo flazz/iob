@@ -1,19 +1,38 @@
-How to use? just run it
-% python purple_inout.py
-- or -
-%./purple_inout.py
+The IOB Package
+===============
+FCLA's inout board or torture? Is there a difference?
 
+Running with iChat
+==================
+The ichat_sync program will synchronize iChat's current status with the IOB. 
+Currently there is no support for status messages. There is simple output for
+normal use and errors are written to standard error.
 
-it will print some startup stuff and notification changes, you can safely run
+a good way to run this is with a cronjob (example runs every 10 minues)
+*/10 * * * *       python $HOME/Code/iob/ichat >> $HOME/.iob.log 2>&1
+
+Running with Purple Clients (Pidgin, Fintch)
+============================================
+The purle_listener program listens for purple clients to change status. Status
+messages are passed along to the IOB. There is simple output for normal use and
+errors are written to standard error.
+
+To run it inthe background with the output logged:
+% ./purple_listener >> $HOME/.iob.log 2>&1 &
+
+It will print some startup stuff and notification changes, you can safely run
 it in the background.
 
-the other files bundled: 
+Other Files
+===========
 
-
-BeautifulSoup.py screen scraping stuff requited by fcla.py, if installed
+BeautifulSoup.py
+----------------
+screen scraping stuff requited by fcla.py, if installed
 globaly you don't need it here.
 
-fcla.py inout board interface.
+fcla.py 
+-------
+inout board interface.
 
 -franco
-
