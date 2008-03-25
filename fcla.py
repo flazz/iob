@@ -33,10 +33,10 @@ class InOutBoard:
       self.params[textarea['name']] = value
 
 
-  def mark_out(self, message):
+  def mark_out(self, message=""):
     self.mark(message, 0)
 
-  def mark_in(self, message):
+  def mark_in(self, message=""):
     self.mark(message, 1)
 
   def mark(self, message, presence):
