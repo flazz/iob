@@ -2,6 +2,10 @@ The IOB Package
 ===============
 FCLA's inout board or torture? Is there a difference?
 
+From the command line
+=====================
+% iob --help for more info
+
 Running with iChat
 ==================
 The ichat_sync program will synchronize iChat's current status with the IOB. 
