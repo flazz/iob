@@ -8,12 +8,7 @@ From the command line
 
 Running with iChat
 ==================
-The ichat_sync program will synchronize iChat's current status with the IOB. 
-Currently there is no support for status messages. There is simple output for
-normal use and errors are written to standard error.
-
-a good way to run this is with a cronjob (example runs every 10 minues)
-*/10 * * * *       python $HOME/Code/iob/ichat >> $HOME/.iob.log 2>&1
+this is a work in progress, old system is gone, new AppleScript based solution soon
 
 Running with Purple Clients (Pidgin, Fintch)
 ============================================
