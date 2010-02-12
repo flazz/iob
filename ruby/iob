@@ -1,4 +1,4 @@
-#!/bin/env ruby
+#!/usr/bin/env ruby
 require 'nokogiri'
 require 'open-uri'
 
@@ -36,9 +36,6 @@ class InOutBoard
 
     query['comment'] = message
 
-    puts query.inspect
-
-
     res = Net::HTTP.post_form @url.merge(action), query
     res.error! unless Net::HTTPSuccess === res
   end
@@ -67,14 +64,16 @@ class InOutBoard
 end
 
 if $0 == __FILE__
+
+  begin
   board = InOutBoard.new
   command = ARGV.shift or raise "#{$0} usage: i[n] | o[ut] | l[ist]"
   message = ARGV.shift
 
   case command
-  when /i(n)?/i then board.sign :in, message
-  when /o(ut)?/i then board.sign :out, message
-  when /l(ist)?/i 
+  when /^i(n)?/i then board.sign :in, message
+  when /^o(ut)?/i then board.sign :out, message
+  when /^l(ist)?/i 
 
     board.list.each do |p|
       puts p.values_at(:name, :email, :status, :message).join("\t")
@@ -83,5 +82,9 @@ if $0 == __FILE__
   else raise "#{$0} usage: i[n] | o[ut] | l[ist]"
   end
 
-  message = ARGV.shift
+  rescue => e
+    puts e.message
+    exit 1
+  end
+
 end
