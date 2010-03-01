@@ -2,6 +2,15 @@
 require 'nokogiri'
 require 'open-uri'
 
+class Nokogiri::XML::Element
+
+  def email_address
+    puts self.to_s
+    css("a[href]").first['href'].sub(/^mailto:/, '') rescue '---'
+  end
+
+end
+
 class InOutBoard
 
   URL = "http://calvin/clockwork/index.php"
@@ -51,7 +60,7 @@ class InOutBoard
           :status => cols[1].content,
           :name => cols[2].content,
           :ext => cols[3].content,
-          :email => cols[4].css("a").first['href'].sub(/^mailto:/, ''),
+          :email => cols[4].email_address,
           :time_back => cols[5].content,
           :message => cols[6].content
         }
@@ -76,7 +85,7 @@ if $0 == __FILE__
   when /^l(ist)?/i 
 
     board.list.each do |p|
-      puts p.values_at(:name, :email, :status, :message).join("\t")
+      puts p.values_at(:name, :email, :ext, :status, :message).join("\t")
     end
 
   else raise "#{$0} usage: i[n] | o[ut] | l[ist]"
@@ -84,6 +93,7 @@ if $0 == __FILE__
 
   rescue => e
     puts e.message
+    puts e.backtrace if ENV['BACKTRACE']
     exit 1
   end
 
