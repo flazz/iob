@@ -5,7 +5,6 @@ require 'open-uri'
 class Nokogiri::XML::Element
 
   def email_address
-    puts self.to_s
     css("a[href]").first['href'].sub(/^mailto:/, '') rescue '---'
   end
 
@@ -82,7 +81,7 @@ if $0 == __FILE__
   case command
   when /^i(n)?/i then board.sign :in, message
   when /^o(ut)?/i then board.sign :out, message
-  when /^l(ist)?/i 
+  when /^l(ist)?/i
 
     board.list.each do |p|
       puts p.values_at(:name, :email, :ext, :status, :message).join("\t")
